@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rad van fortuin</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="fonts.css">
+</head>
+<body>
+<!-- Preload heavy image -->
+<img src="img/afscheid.jpg" style="display: none;">
+
+<script type="text/javascript" src="index.js"></script>
+<section id='start' class='visible'>
+    <h1>Welkom bij smaf rad.</h1>
+    <p>
+        De onderstaande knop opent het projector-tabblad.
+        Op dit tabblad zal het spelverloop getoond worden.
+        Ondertussen kan je op dit tabblad het spelverloop controleren.
+    </p>
+    <button onclick='openscreen(this)' autofocus="true">Open projector-tabblad</button>
+    <p id="closed_view_info" style="visibility: hidden;">
+        Je hebt het projector-tabblad gesloten. Klik op de bovenstaande knop om opnieuw te beginnen.
+    </p>
+</section>
+
+<section id='menu'>
+    <h1>Hoofdmenu</h1>
+    <br>
+    <button onclick='toon_uitlegpagina()'>Toon de uitlegpagina</button>
+    <button onclick="play_theme()" id="play_theme_button">Speel de soundtrack</button>
+    <br>
+    <h2>Nieuw spel</h2>
+    <p>
+        Probeer de tekst binnen 5x12 letters te houden (= grootte van het vak).
+    </p>
+    <input
+            id='spel_title_input'
+            type="text"
+            placeholder='Tip?'>
+    <br>
+    <textarea
+            id='spel_text_input'
+            autocapitalize='characters'
+            autofocus='true'
+            rows='5'
+            cols='12'
+            oninput="spel_text_input_changed(this)"
+            placeholder='Typ hier de tekst van het spel.'
+            minlength="2"></textarea>
+    <br>
+    <button id='newgamebutton' onclick='start_new_game()'>Start!</button>
+
+    <h2>Titel-pagina</h2>
+    <p>Toon een titel-pagina met de volgende titel:</p>
+    <input
+            id='title_input'
+            type="text"
+            placeholder='Rondetitel'>
+    <button id="title_input_button"
+            onclick="show_title_window()">Toon</button>
+
+</section>
+
+<section id='uitlegpagina'>
+    <div>
+
+        <button id='back_to_menu'
+                onclick='toon_menu()'>Terug naar menu
+        </button>
+        <h1>Uitlegpagina</h1>
+    </div>
+
+    <div id="slides">
+        <div class="slide visible">
+        </div>
+
+        <div class="slide">
+        </div>
+        <div class="slide">
+        </div>
+        <div class="slide">
+        </div>
+        <div class="slide">
+        </div>
+    </div>
+
+    <div id="buttons">
+        <button id='previous_slide'
+                onclick='change_slide(-1)'
+                disabled>Vorige slide</button>
+        <div style="flex-grow: 1"></div>
+        <button onclick="display.scale_element('uitlegpagina', 1/1.5)">-</button>
+        <button onclick="display.scale_element('uitlegpagina', 1.5)">+</button>
+        <div style="flex-grow: 1"></div>
+        <button id='next_slide'
+                onclick='change_slide(1)'>Volgende slide</button>
+    </div>
+</section>
+
+<section id='spelcontrole'>
+    <h1>Spelcontrole</h1>
+
+    <!-- vergeet focus niet hierop te leggen zodat keyboard events hierop vallen. -->
+    <button onclick='if (confirm("beeindigen?")){toon_menu()}'>Spel beeindigen</button>
+    <br>
+    <button onclick='wrong()'>Fout geraden</button>
+    <button onclick='win()'>Juist geraden</button>
+
+    <p>
+        Dit is het controlescherm van het spel.
+        Druk op de toetsen van de letters die geraden worden.
+    </p>
+
+    <h2>Gegokte letters</h2>
+    <p id="guessed_letters">&nbsp;</p>
+
+    <h2>Opties</h2>
+    <p>
+        <input
+                type="checkbox"
+                id="fastmode">
+        Snelle modus (bordjes draaien meteen om)
+    </p>
+    <p>
+        <input
+                type="checkbox"
+                id='togglesound'
+                onchange='toggle_sound(this)'
+                checked>
+        Geluidjes
+    </p>
+
+<!---->
+    <button onclick="display.scale_element('tip', 1.1)">Tip vergroten</button>
+    <button onclick="display.scale_element('tip', 1/1.1)">Tip verkleinen</button>
+    <br>
+    <button onclick="display.scale_element('lettercontainer', 1.1)">Woordspel vergroten</button>
+    <button onclick="display.scale_element('lettercontainer', 1/1.1)">Woordspel verkleinen</button>
+
+
+    <h2>Geluidjes voor bij het rad</h2>
+    <p>(Spelen ook af als "Geluidjes" uit staan.)
+        <button onclick="new Audio('sounds/172950__notr__saddertrombones.mp3').play();">Sad Trombone</button>
+        <br>
+        <button onclick="new Audio('sounds/171671__fins__success-1.wav').play();">Positief 1</button>
+        <button onclick="new Audio('sounds/171670__fins__success-2.wav').play();">Positief 2</button>
+        <br>
+        <button onclick="new Audio('sounds/142608__autistic-lucario__error.wav').play();">Negatief 1</button>
+        <button onclick="new Audio('sounds/216090__richerlandtv__bad-beep-incorrect.mp3').play();">Negatief 2</button>
+        <button onclick="new Audio('sounds/331912__kevinvg207__wrong-buzzer.wav').play();">Negatief 3</button>
+        <button onclick="new Audio('sounds/341732__sgtpepperarc360__wrong-answer.wav').play();">Negatief 4</button>
+
+
+    <h2>Oplossing</h2>
+    <p id='solution'></p>
+
+</section>
+
+</body>
+</html>
